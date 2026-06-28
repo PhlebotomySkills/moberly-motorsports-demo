@@ -112,4 +112,62 @@
     var href = a.getAttribute("href").toLowerCase();
     if (href === here || (here === "index.html" && href === "index.html")) a.classList.add("active");
   });
+
+  /* ---------- next-event weather (Open-Meteo, real data, safe) ----------
+     Safe by design:
+       - only forecasts the next event, and only within a reliable window (<= 7 days);
+         beyond that it shows current conditions, never a far-out guess.
+       - it is labelled a forecast and always says the track makes the final call.
+       - it never implies a cancellation; the "Rained Out" banner stays manual.
+       - if the weather service is unreachable, the chip simply hides (never breaks). */
+  (function () {
+    var el = document.querySelector("[data-weather]");
+    if (!el || !window.fetch) return;
+    var lat = el.getAttribute("data-lat"), lon = el.getAttribute("data-lon"), date = el.getAttribute("data-date");
+    if (!lat || !lon) return;
+    var WINDOW_DAYS = 7;
+
+    function wmo(code) {
+      if (code === 0) return { ic: "☀️", t: "Clear" };
+      if (code === 1) return { ic: "🌤️", t: "Mostly sunny" };
+      if (code === 2) return { ic: "⛅", t: "Partly cloudy" };
+      if (code === 3) return { ic: "☁️", t: "Cloudy" };
+      if (code === 45 || code === 48) return { ic: "🌫️", t: "Fog" };
+      if (code >= 51 && code <= 57) return { ic: "🌦️", t: "Drizzle" };
+      if (code >= 61 && code <= 67) return { ic: "🌧️", t: "Rain" };
+      if (code >= 71 && code <= 77) return { ic: "🌨️", t: "Snow" };
+      if (code >= 80 && code <= 82) return { ic: "🌦️", t: "Showers" };
+      if (code >= 95) return { ic: "⛈️", t: "Storms" };
+      return { ic: "🌡️", t: "" };
+    }
+    function set(sel, html) { var n = el.querySelector(sel); if (n) n.innerHTML = html; }
+
+    var url = "https://api.open-meteo.com/v1/forecast?latitude=" + lat + "&longitude=" + lon +
+      "&daily=weather_code,temperature_2m_max,precipitation_probability_max" +
+      "&current=temperature_2m,weather_code" +
+      "&temperature_unit=fahrenheit&timezone=America%2FChicago&forecast_days=16";
+
+    fetch(url).then(function (r) { return r.json(); }).then(function (d) {
+      var days = (d.daily && d.daily.time) || [];
+      var idx = date ? days.indexOf(date) : -1;
+      var noteFinal = ' The track makes the final call on rainouts — <a href="https://www.facebook.com/MoberlyMotorsportsPark" target="_blank" rel="noopener">watch Facebook</a>.';
+
+      if (idx >= 0 && idx <= WINDOW_DAYS) {
+        var ci = wmo(d.daily.weather_code[idx]);
+        var hi = Math.round(d.daily.temperature_2m_max[idx]);
+        var pop = d.daily.precipitation_probability_max[idx];
+        set(".wx-ic", ci.ic);
+        set(".wx-main", hi + "&deg;F" + (ci.t ? " &middot; " + ci.t : ""));
+        set(".wx-pop", (pop == null ? "" : pop + "% rain"));
+        set(".wx-note", "Race-day forecast for the track." + noteFinal);
+      } else if (d.current) {
+        var cc = wmo(d.current.weather_code);
+        set(".wx-ic", cc.ic);
+        set(".wx-main", Math.round(d.current.temperature_2m) + "&deg;F at the track now");
+        set(".wx-pop", "");
+        set(".wx-note", "Race-day forecast posts closer to the event." + noteFinal);
+      } else { return; }
+      el.hidden = false;
+    }).catch(function () { /* weather service unreachable: leave the chip hidden */ });
+  })();
 })();
