@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>Moberly Motorsports Park: Start Here</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="assets/img/logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--red:#D7261E;--red-dk:#A6160F;--cyan:#16A6E8;--cyan-dk:#0E7CB0;--gold:#F5B301;
+        --char:#14161B;--ink:#14161B;--ink2:#39404B;--muted:#6A727E;--line:#E4E7ED;--bg:#F6F7F9;
+        --fh:"Oswald","Arial Narrow",system-ui,sans-serif;--fb:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--fb);background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 22px;}
+  h1,h2,h3{font-family:var(--fh);font-weight:700;text-transform:uppercase;line-height:1.05;}
+  a{text-decoration:none;color:inherit;}
+  .top{background:var(--char);color:#fff;border-bottom:4px solid var(--red);padding:40px 0 44px;text-align:center;position:relative;overflow:hidden;}
+  .top::after{content:"";position:absolute;left:50%;top:-70px;width:380px;height:380px;transform:translateX(-50%);background:radial-gradient(circle,rgba(22,166,232,.18),transparent 70%);}
+  .top .wrap{position:relative;}
+  .top img{height:64px;margin-bottom:14px;}
+  .top .eyebrow{font-size:12px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan);}
+  .top h1{font-size:clamp(28px,5vw,46px);margin:10px 0 10px;}
+  .top h1 .hl{color:var(--cyan);}
+  .top p{color:#C7CDD6;max-width:56ch;margin:0 auto;font-size:16px;}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:36px 0 18px;}
+  .card{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:16px;padding:26px 26px 24px;transition:transform .15s,box-shadow .15s,border-color .15s;}
+  .card:hover{transform:translateY(-4px);box-shadow:0 18px 40px -26px rgba(20,22,27,.45);border-color:var(--cyan);}
+  .card .n{font-family:var(--fh);font-weight:700;font-size:13px;letter-spacing:.06em;color:var(--muted);}
+  .card h3{font-size:21px;margin:8px 0 8px;}
+  .card p{font-size:14.5px;color:var(--ink2);flex:1;}
+  .card .go{margin-top:16px;align-self:flex-start;font-family:var(--fh);font-weight:600;font-size:14px;letter-spacing:.04em;text-transform:uppercase;color:#fff;background:var(--red);padding:11px 20px;border-radius:10px;}
+  .card:hover .go{background:var(--red-dk);}
+  .card.feat{grid-column:1 / -1;border:2px solid var(--red);background:linear-gradient(180deg,#fff, #fff);}
+  .card.feat .badge{align-self:flex-start;background:var(--gold);color:var(--char);font-family:var(--fh);font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:5px 12px;border-radius:7px;margin-bottom:10px;}
+  .card.feat h3{font-size:26px;}
+  .card.feat .go{background:var(--char);}
+  .card.feat:hover .go{background:#000;}
+  .card .go.cyan{background:var(--cyan);}
+  .card:hover .go.cyan{background:var(--cyan-dk);}
+  .small{display:flex;gap:18px;flex-wrap:wrap;margin:6px 0 40px;}
+  .small a{flex:1;min-width:220px;display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:15px 18px;font-size:14.5px;color:var(--ink2);transition:border-color .15s;}
+  .small a:hover{border-color:var(--cyan);}
+  .small a b{font-family:var(--fh);font-weight:600;text-transform:uppercase;letter-spacing:.03em;color:var(--ink);font-size:15px;}
+  .small .ar{margin-left:auto;color:var(--cyan-dk);font-size:20px;}
+  .note{background:#fff;border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:12px;padding:18px 20px;font-size:14px;color:var(--ink2);margin-bottom:46px;}
+  .note b{font-family:var(--fh);font-weight:600;color:var(--ink);}
+  footer{text-align:center;color:var(--muted);font-size:12.5px;padding:0 0 50px;}
+  @media (max-width:680px){.grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <img src="assets/img/logo.png" alt="Moberly Motorsports Park logo">
+    <p class="eyebrow">Website Upgrade &middot; Prepared by Chris Weigel</p>
+    <h1>Moberly Motorsports Park, <span class="hl">rebuilt</span></h1>
+    <p>Everything for the pitch is in this folder. Start with the live demo below, then explore the rest.</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="grid">
+    <a class="card feat" href="side-by-side.html">
+      <span class="badge">Start here</span>
+      <span class="n">01</span>
+      <h3>Experience it live, side by side</h3>
+      <p>Their real website and the new one, open together in one window. Tap a page to switch both at once, then hit the Phone toggle. This is the demo to open in front of the owner.</p>
+      <span class="go">Open the live demo</span>
+    </a>
+    <a class="card" href="comparison.html">
+      <span class="n">02</span>
+      <h3>See the before &amp; after</h3>
+      <p>A clean, annotated walk-through of what changes: the schedule, the prices, the phone number. Easy to send ahead of the meeting.</p>
+      <span class="go cyan">View before &amp; after</span>
+    </a>
+    <a class="card" href="index.html">
+      <span class="n">03</span>
+      <h3>Open the new website</h3>
+      <p>The full rebuilt site on its own, all eleven pages, ready to click through on a phone or laptop.</p>
+      <span class="go cyan">Open the rebuilt site</span>
+    </a>
+  </div>
+
+  <div class="small">
+    <a href="Moberly_Sales_Pitch.html"><span><b>The proposal</b><br>Pricing &amp; what's included</span><span class="ar">&rarr;</span></a>
+    <a href="AUDIT.html"><span><b>The full audit</b><br>Every finding, graded</span><span class="ar">&rarr;</span></a>
+    <a href="BUILD_NOTES.html"><span><b>Build notes</b><br>Go-live checklist for you</span><span class="ar">&rarr;</span></a>
+  </div>
+
+  <div class="note">
+    <b>Two quick things.</b> The live side-by-side needs an internet connection, because it loads the owner's real website next to yours. And the few items to confirm with the owner before go-live (the correct phone number and prices) are listed in the build notes.
+  </div>
+</main>
+
+<footer class="wrap">
+  Moberly Motorsports Park website rebuild &middot; Chris Weigel &middot; WeigelHQ@gmail.com &middot; 573-639-4856
+</footer>
+</body>
+</html>

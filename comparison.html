@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>Moberly Motorsports Park: Before &amp; After</title>
+<meta name="description" content="A side-by-side look at the Moberly Motorsports Park website today versus the rebuilt version: schedule, prices, contact, and mobile.">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="assets/img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  body{background:#EEF0F3;}
+  .cmp-head{background:var(--char);color:#fff;border-bottom:4px solid var(--red);}
+  .cmp-head .wrap{padding:30px 22px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:space-between;}
+  .cmp-head .bz{display:flex;align-items:center;gap:13px;}
+  .cmp-head img{height:48px;}
+  .cmp-head .bz .t{font-family:var(--fh);font-weight:700;font-size:19px;text-transform:uppercase;line-height:1;}
+  .cmp-head .bz .t small{display:block;color:var(--cyan);font-size:11px;letter-spacing:.2em;margin-top:3px;}
+  .cmp-head .who{font-size:13px;color:#C7CDD6;text-align:right;}
+  .cmp-head .who b{color:#fff;font-family:var(--fh);font-weight:600;}
+
+  .hero2{background:var(--char);color:#fff;padding:54px 0 60px;text-align:center;position:relative;overflow:hidden;}
+  .hero2::after{content:"";position:absolute;left:50%;top:-60px;width:420px;height:420px;transform:translateX(-50%);background:radial-gradient(circle,rgba(22,166,232,.18),transparent 70%);}
+  .hero2 .wrap{position:relative;}
+  .hero2 h1{font-size:clamp(30px,5.6vw,54px);max-width:18ch;margin:14px auto 14px;}
+  .hero2 h1 .hl{color:var(--cyan);}
+  .hero2 p{color:#C7CDD6;max-width:60ch;margin:0 auto;font-size:17px;}
+  .grade{display:inline-flex;align-items:stretch;gap:0;margin-top:30px;border:1px solid rgba(255,255,255,.16);border-radius:14px;overflow:hidden;}
+  .grade .g{padding:16px 30px;text-align:center;}
+  .grade .g+.g{border-left:1px solid rgba(255,255,255,.16);}
+  .grade .v{font-family:var(--fh);font-weight:700;font-size:40px;line-height:1;}
+  .grade .now .v{color:#FF6068;}
+  .grade .goal .v{color:#34C77B;}
+  .grade .arrow{display:flex;align-items:center;padding:0 18px;color:#98A1AD;font-size:26px;}
+  .grade .l{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#98A1AD;margin-top:6px;}
+
+  .block{padding:50px 0;border-bottom:1px solid #E0E4EA;}
+  .block .wrap>.eyebrow{margin-bottom:10px;}
+  .block h2{font-size:clamp(24px,3.6vw,36px);margin-bottom:8px;}
+  .block .intro{color:var(--ink-2);max-width:64ch;margin-bottom:28px;font-size:16.5px;}
+
+  .cmp{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start;}
+  .side{display:flex;flex-direction:column;gap:0;}
+  .tag{align-self:flex-start;font-family:var(--fh);font-weight:700;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;padding:6px 14px;border-radius:8px 8px 0 0;}
+  .tag.b{background:#F4D5D3;color:#9E121C;}
+  .tag.a{background:#D8F0DE;color:#0A6238;}
+
+  .frame{border:1px solid #D5DAE1;border-radius:0 12px 12px 12px;overflow:hidden;background:#fff;box-shadow:0 16px 36px -26px rgba(20,22,27,.5);}
+  .frame .bar{display:flex;align-items:center;gap:8px;padding:9px 12px;background:#E9ECF1;border-bottom:1px solid #D5DAE1;}
+  .frame .dots{display:flex;gap:5px;}
+  .frame .dots i{width:10px;height:10px;border-radius:50%;background:#C2C8D2;display:block;}
+  .frame .url{flex:1;background:#fff;border:1px solid #D5DAE1;border-radius:7px;font-size:12px;color:#6A727E;padding:5px 11px;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+  .frame .body{padding:16px;}
+  .frame.before .body{background:#fff;}
+
+  .callouts{list-style:none;margin-top:14px;display:flex;flex-direction:column;gap:8px;}
+  .callouts li{font-size:13.5px;padding:9px 13px 9px 34px;border-radius:9px;position:relative;line-height:1.4;}
+  .callouts.bad li{background:#FCEBEA;color:#7d1019;}
+  .callouts.good li{background:#E8F5EC;color:#0A6238;}
+  .callouts li::before{position:absolute;left:12px;top:9px;font-weight:800;}
+  .callouts.bad li::before{content:"\2715";color:var(--red);}
+  .callouts.good li::before{content:"\2713";color:var(--good);}
+
+  /* compact "after" components reuse styles.css classes; minor sizing here */
+  .mini-sched td{padding:11px 14px;font-size:13.5px;}
+  .mini-sched .d-date{font-size:15px;}
+  .mini-sched th{padding:11px 14px;font-size:12px;}
+  .pricetags{display:flex;gap:14px;flex-wrap:wrap;}
+  .ptag{flex:1;min-width:150px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;}
+  .ptag .src{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+  .ptag .row{display:flex;justify-content:space-between;font-size:14px;padding:4px 0;border-top:1px dashed var(--line);}
+  .ptag .row:first-of-type{border-top:none;}
+  .ptag .row b{font-family:var(--fh);}
+  .ptag.clash{border-color:var(--red);}
+  .ptag.clash .src{color:var(--red);}
+  .clashnote{margin-top:14px;background:var(--char);color:#fff;border-radius:12px;padding:16px 18px;font-size:14.5px;border-left:5px solid var(--gold);}
+  .clashnote b{color:var(--gold);font-family:var(--fh);}
+
+  .phoneline{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:14px;padding:10px 0;}
+  .phoneline .lab{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);width:74px;}
+  .phoneline .num{font-family:var(--fh);font-weight:600;font-size:18px;}
+  .x-red{color:var(--red);} .x-good{color:var(--good);}
+
+  .end{background:var(--char);color:#fff;text-align:center;padding:56px 0;}
+  .end h2{font-size:clamp(26px,4vw,40px);margin-bottom:14px;}
+  .end p{color:#C7CDD6;max-width:56ch;margin:0 auto 26px;font-size:17px;}
+  .end .btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+  .end .contact{margin-top:30px;font-size:14px;color:#C7CDD6;display:flex;gap:22px;justify-content:center;flex-wrap:wrap;}
+  .end .contact a{color:#fff;}
+  .disc{font-size:12px;color:#7B8492;max-width:74ch;margin:24px auto 0;line-height:1.6;}
+
+  @media (max-width:760px){
+    .cmp{grid-template-columns:1fr;gap:26px;}
+    .cmp-head .who{text-align:left;}
+    .grade .g{padding:14px 18px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="cmp-head">
+  <div class="wrap">
+    <div class="bz">
+      <img src="assets/img/logo.png" alt="Moberly Motorsports Park logo">
+      <div class="t">Moberly Motorsports Park<small>Website Upgrade</small></div>
+    </div>
+    <div class="who">Prepared by <b>Chris Weigel</b><br>Web design &amp; SEO &middot; Missouri</div>
+  </div>
+</header>
+
+<section class="hero2">
+  <div class="wrap">
+    <p class="eyebrow" style="color:#FF7A82;justify-content:center;">Before &amp; After</p>
+    <h1>Your site today, next to <span class="hl">the same track rebuilt</span></h1>
+    <p>Same brand, same photos, same schedule. Everything fans search for, finally readable on a phone and visible to Google. Here is the difference, side by side.</p>
+    <div class="grade">
+      <div class="g now"><div class="v">D</div><div class="l">Today &middot; 40/100</div></div>
+      <div class="arrow">&rarr;</div>
+      <div class="g goal"><div class="v">A&minus;</div><div class="l">Rebuilt &middot; 88/100</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SCHEDULE -->
+<section class="block">
+  <div class="wrap">
+    <p class="eyebrow">The schedule</p>
+    <h2>From a flat picture to real, readable text</h2>
+    <p class="intro">Right now the entire 2026 schedule is one image. Google can't read a word of it, and on a phone it shrinks to a thumbnail fans have to pinch and zoom. The rebuild turns it into real text that updates in seconds.</p>
+    <div class="cmp">
+      <div class="side">
+        <span class="tag b">Before &middot; live site</span>
+        <div class="frame before">
+          <div class="bar"><span class="dots"><i></i><i></i><i></i></span><span class="url">moberlymotorsportspark.com</span></div>
+          <div class="body"><img src="assets/img/schedule-2026.jpg" alt="The current homepage schedule, a single flat image"></div>
+        </div>
+        <ul class="callouts bad">
+          <li>One flat JPG. Google reads none of it.</li>
+          <li>Shrinks to an unreadable thumbnail on a phone.</li>
+          <li>Every change means re-exporting a graphic.</li>
+        </ul>
+      </div>
+      <div class="side">
+        <span class="tag a">After &middot; rebuilt</span>
+        <div class="frame after">
+          <div class="bar"><span class="dots"><i></i><i></i><i></i></span><span class="url">your new site</span></div>
+          <div class="body">
+            <div class="sched mini-sched">
+              <table>
+                <thead><tr><th>Date</th><th>Event</th><th></th></tr></thead>
+                <tbody>
+                  <tr><td class="d-date">Jun 27</td><td class="d-event">Moberly Shootout Series <span class="badge rain">Rained out</span></td><td></td></tr>
+                  <tr><td class="d-date">Jul 11</td><td class="d-event">Moberly Shootout Series <span class="badge next">Next race</span><span class="d-classes">Late Models, A-Mods, B-Mods, Hornets</span></td><td class="d-act"><a class="btn sm" href="schedule.html">Info</a></td></tr>
+                  <tr><td class="d-date">Jul 25</td><td class="d-event">Moberly Shootout Series<span class="d-classes">Late Models, A-Mods, B-Mods, Hornets</span></td><td></td></tr>
+                  <tr><td class="d-date">Sep 6</td><td class="d-event">6th Annual Wiener Nationals <span class="badge feat">Signature</span></td><td class="d-act"><a class="btn sm gold" href="wiener-nationals.html">Details</a></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="note" style="padding:0 2px;">Plus the full April&ndash;October season, all as real text. <a href="schedule.html" style="color:var(--red);font-weight:600;">See it live &rarr;</a></p>
+          </div>
+        </div>
+        <ul class="callouts good">
+          <li>Real text Google indexes and ranks.</li>
+          <li>Readable on any phone, no pinching.</li>
+          <li>Edit a date in seconds, no graphic needed.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICES -->
+<section class="block">
+  <div class="wrap">
+    <p class="eyebrow">The prices</p>
+    <h2>Today the site lists two different prices</h2>
+    <p class="intro">This one matters. The homepage says adults are $20 and seniors $15. The official price graphic on the tickets page says $15 and $12. A fan deciding whether to come tonight sees two different answers on the same website. Real text means one price, everywhere.</p>
+    <div class="cmp">
+      <div class="side">
+        <span class="tag b">Before &middot; live site</span>
+        <div class="frame before">
+          <div class="bar"><span class="dots"><i></i><i></i><i></i></span><span class="url">moberlymotorsportspark.com</span></div>
+          <div class="body">
+            <div class="pricetags">
+              <div class="ptag clash">
+                <div class="src">Homepage says</div>
+                <div class="row"><span>Adults</span><b class="x-red">$20</b></div>
+                <div class="row"><span>Seniors</span><b class="x-red">$15</b></div>
+                <div class="row"><span>Military</span><b class="x-red">$15</b></div>
+              </div>
+              <div class="ptag clash">
+                <div class="src">Tickets page says</div>
+                <div class="row"><span>Adults</span><b class="x-red">$15</b></div>
+                <div class="row"><span>Seniors</span><b class="x-red">$12</b></div>
+                <div class="row"><span>Military</span><b class="x-red">$12</b></div>
+              </div>
+            </div>
+            <div class="clashnote"><b>Same website, two prices.</b> Whichever is right, the other is quietly costing trust.</div>
+          </div>
+        </div>
+        <ul class="callouts bad">
+          <li>Conflicting prices on two pages.</li>
+          <li>Locked in an image on the tickets page.</li>
+        </ul>
+      </div>
+      <div class="side">
+        <span class="tag a">After &middot; rebuilt</span>
+        <div class="frame after">
+          <div class="bar"><span class="dots"><i></i><i></i><i></i></span><span class="url">your new site</span></div>
+          <div class="body">
+            <div class="prices">
+              <div class="price"><div class="p-lab">Adults</div><div class="p-sub">Grandstand</div><div class="p-amt"><span class="c">$</span>20</div></div>
+              <div class="price"><div class="p-lab">Seniors</div><div class="p-sub">65 &amp; over</div><div class="p-amt"><span class="c">$</span>15</div></div>
+              <div class="price hot"><div class="p-lab">Kids</div><div class="p-sub">12 &amp; under</div><div class="p-amt free">Free</div></div>
+              <div class="price"><div class="p-lab">Pit Pass</div><div class="p-sub">All ages</div><div class="p-amt"><span class="c">$</span>40</div></div>
+            </div>
+            <p class="note" style="padding:0 2px;">One set of prices, in text. <a href="tickets.html" style="color:var(--red);font-weight:600;">See it live &rarr;</a></p>
+          </div>
+        </div>
+        <ul class="callouts good">
+          <li>One price, shown the same on every page.</li>
+          <li>Change it once and it updates everywhere.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT + FINDABILITY -->
+<section class="block">
+  <div class="wrap">
+    <p class="eyebrow">Contact &amp; findability</p>
+    <h2>One phone number, and pages Google can actually see</h2>
+    <p class="intro">The live site shows two different phone numbers on the same page, and five of its most useful pages are switched off from search. The rebuild fixes both: one consistent number, and every key page back in Google.</p>
+    <div class="cmp">
+      <div class="side">
+        <span class="tag b">Before &middot; live site</span>
+        <div class="frame before"><div class="bar"><span class="dots"><i></i><i></i><i></i></span><span class="url">moberlymotorsportspark.com</span></div>
+          <div class="body">
+            <div class="phoneline"><span class="lab">Header</span><span class="num x-red">660-833-3639</span></div>
+            <div class="phoneline" style="border-top:1px solid var(--line);"><span class="lab">Footer</span><span class="num x-red">660-651-8599</span></div>
+          </div>
+        </div>
+        <ul class="callouts bad">
+          <li>Two different phone numbers, same page.</li>
+          <li>Points, schedule, tickets, rules &amp; driver forms hidden from search.</li>
+          <li>No business or event data for Google.</li>
+        </ul>
+      </div>
+      <div class="side">
+        <span class="tag a">After &middot; rebuilt</span>
+        <div class="frame after"><div class="bar"><span class="dots"><i></i><i></i><i></i></span><span class="url">your new site</span></div>
+          <div class="body">
+            <div class="phoneline"><span class="lab">Everywhere</span><span class="num x-good">660-833-3639</span></div>
+            <div class="phoneline" style="border-top:1px solid var(--line);"><span class="lab">&nbsp;</span><span style="font-size:13.5px;color:var(--muted);">One number, header to footer.</span></div>
+          </div>
+        </div>
+        <ul class="callouts good">
+          <li>One number, header to footer, sitewide.</li>
+          <li>All key pages back in Google search.</li>
+          <li>Business + event data so race nights show up in search and maps.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSE -->
+<section class="end">
+  <div class="wrap">
+    <h2>Open them side by side on your phone</h2>
+    <p>The contrast makes the case better than I can. Here is the full working rebuild, the detailed audit it came from, and the plan to ship it.</p>
+    <div class="btns">
+      <a class="btn lg" href="index.html">Open the rebuilt site</a>
+      <a class="btn lg cyan" href="AUDIT.html">Read the full audit</a>
+      <a class="btn lg ghost" href="Moberly_Sales_Pitch.html">See the proposal</a>
+    </div>
+    <div class="contact">
+      <span><b style="font-family:var(--fh);">Chris Weigel</b></span>
+      <a href="mailto:WeigelHQ@gmail.com?subject=Moberly%20Motorsports%20Park%20website">WeigelHQ@gmail.com</a>
+      <a href="tel:+15736394856">573-639-4856</a>
+    </div>
+    <p class="disc">Grade is from a page-by-page review of moberlymotorsportspark.com on June 27, 2026; the projected score is an achievable target tied to the work shown, not a guarantee. The two-price and two-phone-number examples are taken directly from the live site on that date. The rebuilt "after" panels are the real new pages, shown live.</p>
+  </div>
+</section>
+
+<script src="main.js"></script>
+</body>
+</html>

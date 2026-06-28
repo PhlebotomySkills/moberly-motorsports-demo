@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>Moberly Motorsports Park: Live Side-by-Side</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="assets/img/logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --red:#D7261E; --cyan:#16A6E8; --cyan-dk:#0E7CB0; --gold:#F5B301;
+    --char:#14161B; --char2:#1E222A; --line:#E4E7ED; --muted:#9AA3AF;
+    --fh:"Oswald","Arial Narrow",system-ui,sans-serif;
+    --fb:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;}
+  body{font-family:var(--fb);background:var(--char);color:#fff;display:flex;flex-direction:column;overflow:hidden;}
+
+  /* ---- control bar ---- */
+  .bar{background:var(--char);border-bottom:3px solid var(--red);flex:0 0 auto;}
+  .bar .row1{display:flex;align-items:center;gap:16px;padding:10px 18px;flex-wrap:wrap;}
+  .brand{display:flex;align-items:center;gap:11px;}
+  .brand img{height:38px;}
+  .brand .t{font-family:var(--fh);font-weight:700;font-size:16px;text-transform:uppercase;line-height:1;}
+  .brand .t small{display:block;color:var(--cyan);font-size:10px;letter-spacing:.18em;margin-top:2px;}
+  .spacer{flex:1;}
+  .views{display:flex;gap:6px;background:#0D0F13;border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:4px;}
+  .views button{font-family:var(--fh);font-weight:600;font-size:12.5px;letter-spacing:.05em;text-transform:uppercase;color:#C7CDD6;background:none;border:none;padding:8px 14px;border-radius:7px;cursor:pointer;display:flex;align-items:center;gap:6px;}
+  .views button.on{background:var(--cyan);color:#fff;}
+  .views button svg{width:14px;height:14px;fill:currentColor;}
+
+  .pages{display:flex;gap:6px;padding:0 18px 11px;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .pages button{flex:0 0 auto;font-family:var(--fh);font-weight:500;font-size:13px;letter-spacing:.05em;text-transform:uppercase;color:#C7CDD6;background:#0D0F13;border:1px solid rgba(255,255,255,.12);padding:8px 15px;border-radius:8px;cursor:pointer;transition:.12s;}
+  .pages button:hover{color:#fff;border-color:rgba(255,255,255,.3);}
+  .pages button.on{background:var(--red);border-color:var(--red);color:#fff;}
+
+  /* ---- split stage ---- */
+  .stage{flex:1 1 auto;display:flex;gap:0;min-height:0;background:#0A0B0E;}
+  .pane{flex:1 1 50%;display:flex;flex-direction:column;min-width:0;border-right:2px solid #000;}
+  .pane:last-child{border-right:none;}
+  .pane .head{flex:0 0 auto;display:flex;align-items:center;gap:9px;padding:9px 16px;font-family:var(--fh);font-weight:700;font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;}
+  .pane.before .head{background:#2a1413;color:#ff8d86;border-bottom:1px solid rgba(255,141,134,.25);}
+  .pane.after .head{background:#0e2418;color:#5fe39b;border-bottom:1px solid rgba(95,227,155,.25);}
+  .pane .head .dot{width:9px;height:9px;border-radius:50%;}
+  .pane.before .dot{background:var(--red);}
+  .pane.after .dot{background:#1FC271;}
+  .pane .head .u{margin-left:auto;font-family:var(--fb);font-weight:500;font-size:11px;letter-spacing:.02em;text-transform:none;color:rgba(255,255,255,.45);overflow:hidden;white-space:nowrap;text-overflow:ellipsis;max-width:46%;}
+
+  .framewrap{flex:1 1 auto;position:relative;background:#fff;overflow:auto;display:flex;justify-content:center;}
+  .framewrap iframe{border:0;background:#fff;width:100%;height:100%;display:block;}
+  /* phone mode constrains width */
+  body.phone .framewrap{background:#15171c;padding:14px 0;align-items:flex-start;}
+  body.phone .framewrap iframe{width:390px;max-width:100%;height:auto;min-height:760px;border-radius:18px;box-shadow:0 14px 40px rgba(0,0,0,.5);border:6px solid #000;}
+
+  .loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;pointer-events:none;}
+  .fallback{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:24px;color:#3a414b;background:#fff;}
+  .fallback.show{display:flex;}
+  .fallback p{max-width:42ch;font-size:14.5px;line-height:1.5;}
+  .fallback .b{display:inline-flex;align-items:center;gap:8px;font-family:var(--fh);font-weight:600;text-transform:uppercase;letter-spacing:.04em;background:var(--red);color:#fff;padding:12px 22px;border-radius:10px;text-decoration:none;}
+
+  .hint{flex:0 0 auto;background:#0D0F13;color:var(--muted);font-size:12px;text-align:center;padding:7px 16px;border-top:1px solid rgba(255,255,255,.07);}
+  .hint b{color:#fff;}
+  .hint a{color:var(--cyan);text-decoration:none;}
+
+  @media (max-width:780px){
+    body{overflow:auto;}
+    .stage{flex-direction:column;height:auto;}
+    .pane{flex:none;border-right:none;border-bottom:2px solid #000;height:78vh;}
+    .views .lab{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <div class="row1">
+    <div class="brand">
+      <img src="assets/img/logo.png" alt="Moberly Motorsports Park logo">
+      <div class="t">Live Side-by-Side<small>Their site vs. your new site</small></div>
+    </div>
+    <div class="spacer"></div>
+    <div class="views" role="group" aria-label="Device view">
+      <button id="vDesk" class="on" onclick="setView('desktop')"><svg viewBox="0 0 24 24"><path d="M3 4h18v12H3zM2 18h20v2H2z"/></svg><span class="lab">Desktop</span></button>
+      <button id="vPhone" onclick="setView('phone')"><svg viewBox="0 0 24 24"><path d="M7 2h10a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm5 17a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/></svg><span class="lab">Phone</span></button>
+    </div>
+  </div>
+  <div class="pages" id="pages"></div>
+</div>
+
+<div class="stage">
+  <div class="pane before">
+    <div class="head"><span class="dot"></span>Their site today <span class="u" id="urlBefore">moberlymotorsportspark.com</span></div>
+    <div class="framewrap">
+      <div class="loading">Loading their live site…</div>
+      <div class="fallback" id="fbBefore">
+        <p>Their live Wix site is blocking itself from loading inside this preview window. That on its own is a small sign of an aging setup. You can still open it in its own tab to compare.</p>
+        <a class="b" id="fbLink" href="https://www.moberlymotorsportspark.com/" target="_blank" rel="noopener">Open their live site &nearr;</a>
+      </div>
+      <iframe id="frBefore" title="Their current live website"
+        referrerpolicy="no-referrer"
+        sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-presentation"></iframe>
+    </div>
+  </div>
+  <div class="pane after">
+    <div class="head"><span class="dot"></span>Your new site <span class="u" id="urlAfter">your rebuilt site</span></div>
+    <div class="framewrap">
+      <iframe id="frAfter" title="Your rebuilt website"></iframe>
+    </div>
+  </div>
+</div>
+
+<div class="hint">
+  Scroll each side on its own. Tap a page above to switch <b>both</b> at once. Try <b>Phone</b> view to feel the mobile difference. &nbsp;&middot;&nbsp;
+  <a href="comparison.html">See the annotated before/after &rarr;</a>
+</div>
+
+<script>
+  // page pairs: [label, theirLiveURL, ourPage]
+  var PAIRS = [
+    ["Home",      "https://www.moberlymotorsportspark.com/",                 "index.html"],
+    ["Schedule",  "https://www.moberlymotorsportspark.com/upcoming",         "schedule.html"],
+    ["Tickets",   "https://www.moberlymotorsportspark.com/ticketpricing",    "tickets.html"],
+    ["Points",    "https://www.moberlymotorsportspark.com/points",           "points.html"],
+    ["Rules",     "https://www.moberlymotorsportspark.com/rules",            "rules.html"],
+    ["Wiener Nationals","https://www.moberlymotorsportspark.com/wiener-nationals","wiener-nationals.html"],
+    ["Directions","https://www.moberlymotorsportspark.com/directions",       "directions.html"],
+    ["Drivers",   "https://www.moberlymotorsportspark.com/driversforms",     "drivers.html"]
+  ];
+  var frB=document.getElementById('frBefore'), frA=document.getElementById('frAfter');
+  var urlB=document.getElementById('urlBefore'), urlA=document.getElementById('urlAfter');
+  var fbB=document.getElementById('fbBefore'), fbLink=document.getElementById('fbLink');
+  var loadingB=document.querySelector('.pane.before .loading');
+  var pagesEl=document.getElementById('pages');
+  var current=0, fbTimer=null;
+
+  function load(i){
+    current=i;
+    var p=PAIRS[i];
+    // show loading, reset fallback
+    fbB.classList.remove('show'); if(loadingB) loadingB.style.display='flex';
+    frB.style.visibility='hidden';
+    frB.src=p[1]; frA.src=p[2];
+    fbLink.href=p[1];
+    urlB.textContent=p[1].replace(/^https?:\/\//,'');
+    urlA.textContent=p[2];
+    [].forEach.call(pagesEl.children,function(b,n){ b.classList.toggle('on', n===i); });
+    // fallback: if the live frame hasn't fired load within 6s, assume it was blocked/busted
+    clearTimeout(fbTimer);
+    fbTimer=setTimeout(function(){
+      if(loadingB) loadingB.style.display='none';
+      fbB.classList.add('show');
+    },6000);
+  }
+  frB.addEventListener('load',function(){
+    clearTimeout(fbTimer);
+    if(loadingB) loadingB.style.display='none';
+    frB.style.visibility='visible';
+    // if it loaded but is about:blank (frame-busted), show fallback
+    try{ if(frB.contentWindow.location.href==='about:blank'){ fbB.classList.add('show'); } }catch(e){ /* cross-origin = it loaded fine */ }
+  });
+
+  // build page buttons
+  PAIRS.forEach(function(p,i){
+    var b=document.createElement('button');
+    b.textContent=p[0];
+    b.onclick=function(){ load(i); };
+    pagesEl.appendChild(b);
+  });
+
+  function setView(v){
+    document.body.classList.toggle('phone', v==='phone');
+    document.getElementById('vDesk').classList.toggle('on', v==='desktop');
+    document.getElementById('vPhone').classList.toggle('on', v==='phone');
+  }
+
+  load(0);
+</script>
+</body>
+</html>

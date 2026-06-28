@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>Moberly Motorsports Park: Website Performance Review</title>
+<script>if('IntersectionObserver' in window){document.documentElement.className+=' anim';}</script>
+<style>
+  :root{
+    --ink:#16191F; --ink2:#39404B; --muted:#6A727E; --line:#E5E8EE;
+    --bg:#F6F7F9; --card:#FFFFFF;
+    --red:#D81E2C; --redbg:#FCEAEB; --redink:#9E121C;
+    --green:#11854C; --greenbg:#E7F3EC; --greenink:#0A6238;
+    --amber:#A85A06;
+    --char:#16191F;
+    --fd:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --fb:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg); color:var(--ink); font-family:var(--fb); line-height:1.62; -webkit-font-smoothing:antialiased; font-weight:400; overflow-x:hidden;}
+  .wrap{max-width:1060px; margin:0 auto; padding:0 24px;}
+  h1,h2,h3,.display{font-family:var(--fd); font-weight:700; line-height:1.08; letter-spacing:-.015em;}
+  .eyebrow{font-size:12.5px; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:var(--redink); display:inline-flex; align-items:center; gap:10px;}
+  .eyebrow::before{content:""; width:26px; height:2px; background:var(--red); display:inline-block;}
+  .reveal{transition:opacity .55s ease, transform .55s ease;}
+  .anim .reveal{opacity:0; transform:translateY(14px);}
+  .anim .reveal.in{opacity:1; transform:none;}
+  a{color:inherit;}
+  .uline{box-shadow:inset 0 -0.12em 0 var(--red);}
+
+  /* INTRO */
+  .intro{padding:46px 0 6px;}
+  .intro-card{display:flex; gap:22px; align-items:flex-start; background:var(--card); border:1px solid var(--line); border-radius:16px; padding:30px 32px;}
+  .avatar{width:62px; height:62px; border-radius:50%; background:var(--red); color:#fff; font-weight:700; font-size:22px; letter-spacing:.02em; display:flex; align-items:center; justify-content:center; flex:0 0 auto;}
+  .intro h2{font-size:clamp(22px,3vw,27px); margin:0 0 8px;}
+  .intro .big{font-weight:600; color:var(--ink); font-size:17px; margin:0;}
+  .intro p.note{font-size:15.5px; color:var(--ink2); margin-top:10px; max-width:62ch;}
+  .intro .loc{display:inline-block; margin-top:15px; font-size:13px; color:var(--muted); font-weight:500;}
+  .intro .loc::before{content:""; display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--red); margin-right:8px; vertical-align:middle;}
+  @media (max-width:560px){ .intro-card{flex-direction:column; gap:16px; padding:24px 22px;} }
+
+  /* HERO */
+  .hero{background:var(--char); color:#fff; padding:72px 0 78px; border-bottom:4px solid var(--red);}
+  .hero h1{font-size:clamp(33px,5.4vw,58px); margin:20px 0 20px; max-width:17ch;}
+  .hero .uline{box-shadow:inset 0 -0.1em 0 var(--red);}
+  .hero p.sub{font-size:clamp(16px,2vw,20px); color:#C7CDD6; max-width:58ch; margin-bottom:34px; font-weight:400;}
+  .chips{display:flex; gap:0; flex-wrap:wrap; margin-bottom:34px; border:1px solid rgba(255,255,255,.16); border-radius:14px; overflow:hidden; max-width:520px;}
+  .chip{flex:1; padding:18px 24px; min-width:160px;}
+  .chip+.chip{border-left:1px solid rgba(255,255,255,.16);}
+  .chip .lab{font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; color:#98A1AD; margin-bottom:6px;}
+  .chip .val{font-family:var(--fd); font-weight:800; font-size:38px; line-height:1;}
+  .chip .val small{font-family:var(--fb); font-weight:600; font-size:15px; color:#98A1AD;}
+  .chip.now .val{color:#FF5A63;} .chip.goal .val{color:#34C77B;}
+  .btn{display:inline-block; background:#C2121C; color:#fff; font-weight:600; font-size:16px; padding:15px 28px; border-radius:11px; text-decoration:none; transition:transform .14s ease, background .14s ease; border:none; cursor:pointer; font-family:var(--fb);}
+  .btn:hover{transform:translateY(-2px); background:#A60F18;}
+  .btn.ghost{background:transparent; border:1px solid rgba(255,255,255,.3); margin-left:8px;}
+  .btn.ghost:hover{background:rgba(255,255,255,.07);}
+
+  section{padding:64px 0;}
+  .sec-head{max-width:60ch; margin-bottom:36px;}
+  .sec-head h2{font-size:clamp(27px,3.7vw,39px); margin:14px 0 13px;}
+  .sec-head p{font-size:17px; color:var(--ink2);}
+
+  /* grade bars */
+  .catgrid{display:grid; gap:14px;}
+  .cat{background:var(--card); border:1px solid var(--line); border-radius:13px; padding:17px 20px;}
+  .cat .top{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:11px;}
+  .cat .name{font-weight:600; font-size:15px;}
+  .cat .nums{font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums;}
+  .cat .nums b{font-family:var(--fd); font-weight:700; color:var(--ink);}
+  .cat .nums .g{color:var(--green);}
+  .track{height:8px; background:#EDF0F4; border-radius:5px; position:relative; overflow:hidden; margin-bottom:7px;}
+  .track:last-child{margin-bottom:0;}
+  .track .fill{height:100%; border-radius:5px; width:0; transition:width 1s cubic-bezier(.2,.7,.2,1);}
+  .fill.now{background:var(--red);}
+  .fill.goal{background:var(--green);}
+  .legend{display:flex; gap:20px; font-size:13px; color:var(--muted); margin-top:14px;}
+  .dot{display:inline-block; width:10px; height:10px; border-radius:50%; vertical-align:middle; margin-right:6px;}
+
+  /* gap meter */
+  .meter-wrap{background:var(--char); color:#fff; border-radius:18px; padding:40px 36px;}
+  .meter-top{display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:24px; gap:20px; flex-wrap:wrap;}
+  .meter-now .n,.meter-goal .n{font-family:var(--fd); font-weight:800; font-size:clamp(46px,8vw,74px); line-height:.95;}
+  .meter-now .n{color:#FF5A63;} .meter-goal .n{color:#34C77B; text-align:right;}
+  .meter-now .l,.meter-goal .l{font-size:12.5px; letter-spacing:.09em; text-transform:uppercase; color:#98A1AD; margin-top:6px;}
+  .meter-goal{text-align:right;}
+  .gtrack{height:14px; border-radius:8px; background:rgba(255,255,255,.10); position:relative; overflow:hidden;}
+  .gnow{position:absolute; left:0; top:0; bottom:0; width:40%; background:#FF5A63;}
+  .ggrow{position:absolute; top:0; bottom:0; left:40%; width:48%; background:#34C77B; transition:width 1.2s ease .15s;}
+  .meter-note{font-size:13px; color:#98A1AD; margin-top:18px; max-width:70ch;}
+
+  /* backend health table */
+  .health{background:var(--card); border:1px solid var(--line); border-radius:15px; overflow:hidden;}
+  .hrow{display:grid; grid-template-columns:1.25fr 1fr 1fr; align-items:center; border-top:1px solid var(--line);}
+  .hrow:first-child{border-top:none;}
+  .hhead{background:#F0F2F6; font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); font-weight:700;}
+  .hcell{padding:15px 20px; font-size:14.5px;}
+  .hcell.metric{font-weight:600; color:var(--ink);}
+  .badge{display:inline-flex; align-items:center; gap:8px; font-size:13px; font-weight:600; padding:5px 12px; border-radius:7px;}
+  .badge.bad{background:var(--redbg); color:var(--redink);}
+  .badge.good{background:var(--greenbg); color:var(--greenink);}
+  .ico{width:7px; height:7px; border-radius:50%;}
+  .ico.bad{background:var(--red);} .ico.good{background:var(--green);}
+
+  /* problems */
+  .probs{display:grid; grid-template-columns:repeat(auto-fit,minmax(265px,1fr)); gap:16px;}
+  .prob{background:var(--card); border:1px solid var(--line); border-top:3px solid var(--red); border-radius:13px; padding:24px 22px;}
+  .prob .num{font-family:var(--fd); font-weight:800; font-size:15px; color:var(--redink); letter-spacing:.1em;}
+  .prob h3{font-size:19px; margin:10px 0 9px;}
+  .prob p{font-size:14.5px; color:var(--ink2);}
+  .prob .cost{display:block; margin-top:14px; font-size:12.5px; font-weight:700; color:var(--redink); letter-spacing:.02em; text-transform:uppercase;}
+
+  /* deliver */
+  .deliver{display:grid; grid-template-columns:repeat(auto-fit,minmax(235px,1fr)); gap:14px;}
+  .d{background:var(--card); border:1px solid var(--line); border-radius:13px; padding:20px 22px;}
+  .d .k{font-family:var(--fd); font-weight:700; font-size:16px; margin-bottom:7px; display:flex; align-items:center; gap:9px;}
+  .d .k i{width:18px; height:18px; flex:0 0 auto; border-radius:50%; background:var(--greenbg); color:var(--greenink); font-style:normal; font-size:12px; font-weight:700; display:inline-flex; align-items:center; justify-content:center;}
+  .d p{font-size:13.5px; color:var(--ink2);}
+
+  /* pricing */
+  .tiers{display:grid; grid-template-columns:repeat(auto-fit,minmax(275px,1fr)); gap:18px; align-items:stretch;}
+  .tier{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:30px 26px; display:flex; flex-direction:column;}
+  .tier.feat{border:1.5px solid var(--red); box-shadow:0 12px 34px -22px rgba(22,25,31,.4); position:relative;}
+  .tier .pop{position:absolute; top:-12px; left:26px; background:#C2121C; color:#fff; font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:5px 13px; border-radius:6px;}
+  .tier .tname{font-family:var(--fd); font-weight:800; font-size:21px;}
+  .tier .tsub{font-size:13.5px; color:var(--muted); margin:7px 0 18px; min-height:36px;}
+  .price{font-family:var(--fd); font-weight:800; font-size:34px; color:var(--ink); border-bottom:1px solid var(--line); padding-bottom:16px; margin-bottom:18px;}
+  .price .ph{border-bottom:2px dashed var(--amber); padding:0 4px;}
+  .price small{display:block; font-family:var(--fb); font-weight:500; font-size:12.5px; color:var(--muted); letter-spacing:.02em; margin-top:7px;}
+  .tier ul{list-style:none; display:flex; flex-direction:column; gap:11px; flex:1;}
+  .tier li{font-size:14px; color:var(--ink2); padding-left:25px; position:relative;}
+  .tier li::before{content:"\2713"; position:absolute; left:0; top:0; color:var(--green); font-weight:700;}
+  .tier li.off{color:var(--muted);}
+  .tier li.off::before{content:"\2013"; color:var(--line);}
+  .tier .btn{margin-top:22px; text-align:center;}
+  .tier:not(.feat) .btn{background:var(--char);}
+  .tier:not(.feat) .btn:hover{background:#000;}
+
+  /* CTA */
+  .cta{background:var(--char); color:#fff; border-radius:18px; padding:52px 38px; text-align:center; border-top:4px solid var(--red);}
+  .cta h2{font-size:clamp(29px,4.1vw,44px); margin-bottom:16px;}
+  .cta p{color:#C7CDD6; font-size:18px; max-width:52ch; margin:0 auto 28px;}
+  .contact{display:flex; gap:28px; justify-content:center; flex-wrap:wrap; margin-top:30px; font-size:15px; color:#E5E9EF;}
+  .contact b{font-family:var(--fd); font-weight:700;}
+  footer{padding:42px 0 64px; text-align:center;}
+  footer p{font-size:12.5px; color:var(--muted); max-width:72ch; margin:0 auto; line-height:1.7;}
+
+  .hero .eyebrow{color:#FF7A82;}
+  .cta .reassure{font-size:13px; color:#98A1AD; margin-top:16px; margin-bottom:0;}
+  .contact a{color:#E5E9EF; text-decoration:none; border-bottom:1px solid rgba(255,255,255,.32);}
+  .contact a:hover{border-color:#fff;}
+  .tiers-note{text-align:center; font-size:14px; color:var(--muted); margin-top:22px;}
+
+  @media (prefers-reduced-motion: reduce){
+    .anim .reveal{opacity:1; transform:none;}
+    .reveal{transition:none;}
+    .track .fill,.ggrow{transition:none;}
+    .btn:hover{transform:none;}
+  }
+
+  @media (max-width:860px){
+    section{padding:48px 0;}
+    .hero{padding:54px 0 58px;}
+    .meter-wrap{padding:30px 24px;}
+    .cta{padding:42px 26px;}
+    .sec-head{margin-bottom:28px;}
+  }
+  @media (max-width:620px){
+    .wrap{padding:0 18px;}
+    section{padding:40px 0;}
+    .hero{padding:42px 0 46px;}
+    .hero h1{margin:16px 0 16px;}
+    .hero .btn{display:block; width:100%; text-align:center; margin:0 0 10px;}
+    .hero .btn.ghost{margin-left:0;}
+    .chips{flex-direction:column; max-width:none;}
+    .chip{min-width:0;}
+    .chip+.chip{border-left:none; border-top:1px solid rgba(255,255,255,.16);}
+    .hhead{display:none;}
+    .hrow{display:block; padding:14px 18px;}
+    .hcell{padding:0; display:inline-block; vertical-align:middle; font-size:14px;}
+    .hcell.metric{display:block; font-size:15px; font-weight:600; margin-bottom:9px;}
+    .hcell.metric + .hcell{margin-right:6px;}
+    .hcell.metric + .hcell + .hcell::before{content:"\2192"; color:var(--muted); margin-right:8px;}
+    .meter-top{gap:14px;}
+    .cta p{font-size:16.5px;}
+    .contact{gap:12px 22px;}
+  }
+  @media (max-width:380px){
+    .chip .val{font-size:32px;}
+    .meter-now .n,.meter-goal .n{font-size:42px;}
+    .btn{padding:14px 20px; font-size:15px;}
+    .prob h3{font-size:18px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- INTRO -->
+<section class="intro">
+  <div class="wrap">
+    <div class="intro-card reveal">
+      <div class="avatar">CW</div>
+      <div>
+        <h2>Hi, I'm Chris Weigel</h2>
+        <p class="big">I fix websites for small businesses across Missouri.</p>
+        <p class="note">I came across Moberly Motorsports Park and spent an afternoon going through your site the way a race fan would, then put together this quick, honest review. No pressure, and nothing automated, just a real look at what's working, what isn't, and how I'd fix it. If we work together, you deal with me directly, start to finish.</p>
+        <span class="loc">Web design &amp; SEO &middot; Missouri</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow reveal">Website performance review &middot; Moberly Motorsports Park</p>
+    <h1 class="reveal">Race fans are searching for you. Right now, <span class="uline">Google can't show them</span> where you are.</h1>
+    <p class="sub reveal">Your schedule, tickets, points, and rules are switched off in search and locked inside images a phone can't read. This is a page-by-page review of where the site stands, and what it looks like fixed.</p>
+    <div class="chips reveal">
+      <div class="chip now"><div class="lab">Site today</div><div class="val">40<small>/100 &middot; D</small></div></div>
+      <div class="chip goal"><div class="lab">Achievable</div><div class="val">88<small>/100 &middot; A&minus;</small></div></div>
+    </div>
+    <div class="reveal">
+      <a href="#breakdown" class="btn">See the breakdown</a>
+      <a href="#talk" class="btn ghost">Book a 15-min call</a>
+    </div>
+  </div>
+</header>
+
+<!-- CURRENT GRADE -->
+<section id="breakdown">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Where it stands today</p>
+      <h2>A grade of D, and it's not an opinion</h2>
+      <p>This comes from a full page-by-page review of moberlymotorsportspark.com on June 27, 2026. Eight categories, scored on what search engines and visitors actually see. Here is the honest picture.</p>
+    </div>
+    <div class="catgrid reveal" id="cats-now">
+      <div class="cat"><div class="top"><span class="name">Indexability &amp; crawlability</span><span class="nums"><b>30</b> / 100</span></div><div class="track"><div class="fill now" style="width:30%"></div></div></div>
+      <div class="cat"><div class="top"><span class="name">On-page SEO</span><span class="nums"><b>38</b> / 100</span></div><div class="track"><div class="fill now" style="width:38%"></div></div></div>
+      <div class="cat"><div class="top"><span class="name">Content &amp; freshness</span><span class="nums"><b>42</b> / 100</span></div><div class="track"><div class="fill now" style="width:42%"></div></div></div>
+      <div class="cat"><div class="top"><span class="name">Local SEO</span><span class="nums"><b>35</b> / 100</span></div><div class="track"><div class="fill now" style="width:35%"></div></div></div>
+      <div class="cat"><div class="top"><span class="name">Technical &amp; performance</span><span class="nums"><b>55</b> / 100</span></div><div class="track"><div class="fill now" style="width:55%"></div></div></div>
+      <div class="cat"><div class="top"><span class="name">Mobile UX</span><span class="nums"><b>40</b> / 100</span></div><div class="track"><div class="fill now" style="width:40%"></div></div></div>
+      <div class="cat"><div class="top"><span class="name">Accessibility</span><span class="nums"><b>35</b> / 100</span></div><div class="track"><div class="fill now" style="width:35%"></div></div></div>
+      <div class="cat"><div class="top"><span class="name">Conversion &amp; UX</span><span class="nums"><b>42</b> / 100</span></div><div class="track"><div class="fill now" style="width:42%"></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- THE GAP -->
+<section style="padding-top:8px;">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Where you could be</p>
+      <h2>The same track, found first instead of not at all</h2>
+      <p>Every point of this jump maps to a specific fix in the plan below. These are achievable targets, not guarantees, but nothing here is guesswork.</p>
+    </div>
+    <div class="meter-wrap reveal">
+      <div class="meter-top">
+        <div class="meter-now"><div class="n">40</div><div class="l">Today &middot; Grade D</div></div>
+        <div class="meter-goal"><div class="n">88</div><div class="l">After rebuild &middot; Grade A&minus;</div></div>
+      </div>
+      <div class="gtrack"><div class="gnow"></div><div class="ggrow" id="ggrow"></div></div>
+      <p class="meter-note">Overall site health score, 0 to 100. Today's 40 reflects hidden pages, image-only content, and missing search signals. The 88 reflects those issues resolved.</p>
+    </div>
+    <div style="height:24px;"></div>
+    <div class="catgrid reveal" id="cats-both">
+      <div class="cat"><div class="top"><span class="name">Indexability &amp; crawlability</span><span class="nums"><b>30</b> &rarr; <b class="g">95</b></span></div><div class="track"><div class="fill now" style="width:30%"></div></div><div class="track"><div class="fill goal" style="width:95%"></div></div></div>
+      <div class="cat"><div class="top"><span class="name">On-page SEO</span><span class="nums"><b>38</b> &rarr; <b class="g">88</b></span></div><div class="track"><div class="fill now" style="width:38%"></div></div><div class="track"><div class="fill goal" style="width:88%"></div></div></div>
+      <div class="cat"><div class="top"><span class="name">Content &amp; freshness</span><span class="nums"><b>42</b> &rarr; <b class="g">85</b></span></div><div class="track"><div class="fill now" style="width:42%"></div></div><div class="track"><div class="fill goal" style="width:85%"></div></div></div>
+      <div class="cat"><div class="top"><span class="name">Local SEO</span><span class="nums"><b>35</b> &rarr; <b class="g">90</b></span></div><div class="track"><div class="fill now" style="width:35%"></div></div><div class="track"><div class="fill goal" style="width:90%"></div></div></div>
+      <div class="cat"><div class="top"><span class="name">Technical &amp; performance</span><span class="nums"><b>55</b> &rarr; <b class="g">85</b></span></div><div class="track"><div class="fill now" style="width:55%"></div></div><div class="track"><div class="fill goal" style="width:85%"></div></div></div>
+      <div class="cat"><div class="top"><span class="name">Mobile UX</span><span class="nums"><b>40</b> &rarr; <b class="g">90</b></span></div><div class="track"><div class="fill now" style="width:40%"></div></div><div class="track"><div class="fill goal" style="width:90%"></div></div></div>
+      <div class="cat"><div class="top"><span class="name">Accessibility</span><span class="nums"><b>35</b> &rarr; <b class="g">88</b></span></div><div class="track"><div class="fill now" style="width:35%"></div></div><div class="track"><div class="fill goal" style="width:88%"></div></div></div>
+      <div class="cat"><div class="top"><span class="name">Conversion &amp; UX</span><span class="nums"><b>42</b> &rarr; <b class="g">87</b></span></div><div class="track"><div class="fill now" style="width:42%"></div></div><div class="track"><div class="fill goal" style="width:87%"></div></div></div>
+    </div>
+    <div class="legend reveal"><span><span class="dot" style="background:var(--red)"></span>Today</span><span><span class="dot" style="background:var(--green)"></span>After the rebuild</span></div>
+  </div>
+</section>
+
+<!-- BACKEND HEALTH -->
+<section style="padding-top:8px;">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Backend health increase</p>
+      <h2>What changes under the hood</h2>
+      <p>The grade is the headline. These are the mechanics behind it, the things search engines and phones quietly judge you on every day.</p>
+    </div>
+    <div class="health reveal">
+      <div class="hrow hhead"><div class="hcell metric">Signal</div><div class="hcell">Today</div><div class="hcell">After</div></div>
+      <div class="hrow"><div class="hcell metric">Core pages visible in Google</div><div class="hcell"><span class="badge bad"><span class="ico bad"></span>5 hidden</span></div><div class="hcell"><span class="badge good"><span class="ico good"></span>All live</span></div></div>
+      <div class="hrow"><div class="hcell metric">Schedule, tickets &amp; rules</div><div class="hcell"><span class="badge bad"><span class="ico bad"></span>Locked in images</span></div><div class="hcell"><span class="badge good"><span class="ico good"></span>Real, searchable text</span></div></div>
+      <div class="hrow"><div class="hcell metric">Event listings in search &amp; maps</div><div class="hcell"><span class="badge bad"><span class="ico bad"></span>No structured data</span></div><div class="hcell"><span class="badge good"><span class="ico good"></span>Event + business schema</span></div></div>
+      <div class="hrow"><div class="hcell metric">Contact consistency (phone)</div><div class="hcell"><span class="badge bad"><span class="ico bad"></span>2 conflicting numbers</span></div><div class="hcell"><span class="badge good"><span class="ico good"></span>One, everywhere</span></div></div>
+      <div class="hrow"><div class="hcell metric">Mobile experience</div><div class="hcell"><span class="badge bad"><span class="ico bad"></span>Pinch to read</span></div><div class="hcell"><span class="badge good"><span class="ico good"></span>Built mobile-first</span></div></div>
+      <div class="hrow"><div class="hcell metric">Accessibility &amp; image labels</div><div class="hcell"><span class="badge bad"><span class="ico bad"></span>Missing alt text</span></div><div class="hcell"><span class="badge good"><span class="ico good"></span>Complete</span></div></div>
+      <div class="hrow"><div class="hcell metric">Page speed &amp; Core Web Vitals</div><div class="hcell"><span class="badge bad"><span class="ico bad"></span>Heavy, unmeasured</span></div><div class="hcell"><span class="badge good"><span class="ico good"></span>Optimized + monitored</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEMS -->
+<section style="padding-top:8px;">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">In plain terms</p>
+      <h2>Three things quietly costing you ticket sales</h2>
+    </div>
+    <div class="probs">
+      <div class="prob reveal"><div class="num">01</div><h3>Your best pages are switched off</h3><p>Points, schedule, ticket prices, rules, and driver forms are all set to hide from search. When someone Googles "Moberly races this weekend," the pages that would answer them never appear.</p><span class="cost">Lost: high-intent fans ready to come</span></div>
+      <div class="prob reveal"><div class="num">02</div><h3>Your info is trapped in pictures</h3><p>The schedule, prices, and rules are flat images. Google can't read them, and on a phone they shrink to an unreadable thumbnail. Most race fans are on a phone, often deciding that afternoon.</p><span class="cost">Lost: the mobile gameday decision</span></div>
+      <div class="prob reveal"><div class="num">03</div><h3>Mixed signals on contact</h3><p>Two different phone numbers show on every page, and every update points fans to Facebook. Search engines and first-time visitors both read inconsistency as "is this place even still open?"</p><span class="cost">Lost: trust and local ranking</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- DELIVER -->
+<section style="padding-top:8px;">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">The rebuild</p>
+      <h2>What you walk away with</h2>
+    </div>
+    <div class="deliver">
+      <div class="d reveal"><div class="k"><i>&#10003;</i>Found on Google</div><p>Every key page back in search, with unique titles and descriptions that match what fans type.</p></div>
+      <div class="d reveal"><div class="k"><i>&#10003;</i>A real homepage</div><p>A clear headline, the next race up top, and a Buy Tickets button that works on any screen.</p></div>
+      <div class="d reveal"><div class="k"><i>&#10003;</i>Live, editable schedule</div><p>Schedule, prices, and rules as text you can update in seconds, no re-exporting a graphic.</p></div>
+      <div class="d reveal"><div class="k"><i>&#10003;</i>Events in Google</div><p>Structured data so your race nights can show up as events in search and on maps.</p></div>
+      <div class="d reveal"><div class="k"><i>&#10003;</i>Mobile-first</div><p>Designed for the phone in the grandstand, fast and readable, not a desktop afterthought.</p></div>
+      <div class="d reveal"><div class="k"><i>&#10003;</i>An audience you own</div><p>Email and text signup so a rainout reaches fans directly, not just whoever Facebook decides to show.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section style="padding-top:8px;">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Ways to work together</p>
+      <h2>Pick the lane that fits</h2>
+      <p>Three options, from a fast fix to a full rebuild with ongoing growth. Same goal every time: get the track found and get fans to the ticket.</p>
+    </div>
+    <div class="tiers">
+      <div class="tier reveal">
+        <div class="tname">Fix the Basics</div>
+        <div class="tsub">Stop the bleeding, fast.</div>
+        <div class="price">$350<small>one-time project</small></div>
+        <ul>
+          <li>Turn your hidden pages back on in Google</li>
+          <li>One consistent phone number sitewide</li>
+          <li>New homepage headline + Buy Tickets button</li>
+          <li>Resubmit the site to Google Search Console</li>
+          <li class="off">Full visual rebuild</li>
+          <li class="off">Schema &amp; ongoing SEO</li>
+        </ul>
+        <a href="#talk" class="btn">Start here</a>
+      </div>
+      <div class="tier feat reveal">
+        <div class="pop">Most popular</div>
+        <div class="tname">Full Rebuild</div>
+        <div class="tsub">A modern site that does its job.</div>
+        <div class="price">$650<small>one-time project</small></div>
+        <ul>
+          <li>Everything in Fix the Basics</li>
+          <li>Complete mobile-first redesign</li>
+          <li>Schedule, prices &amp; rules rebuilt as text</li>
+          <li>Event + business structured data</li>
+          <li>Unique titles &amp; descriptions on every page</li>
+          <li>Stale 2023 content refreshed or retired</li>
+        </ul>
+        <a href="#talk" class="btn">Rebuild my site</a>
+      </div>
+      <div class="tier reveal">
+        <div class="tname">Rebuild + Growth</div>
+        <div class="tsub">Build it, then keep it winning.</div>
+        <div class="price">$950<small>one-time, full season</small></div>
+        <ul>
+          <li>Everything in Full Rebuild</li>
+          <li>Season-long SEO &amp; tune-ups</li>
+          <li>Email/text fan list setup</li>
+          <li>Monthly results &amp; recap posts</li>
+          <li>Performance &amp; Core Web Vitals monitoring</li>
+          <li>Priority support through the season</li>
+        </ul>
+        <a href="#talk" class="btn">Let's grow it</a>
+      </div>
+    </div>
+    <p class="tiers-note">Not sure which fits? Start with the free call and I'll point you to the right one, no upsell.</p>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="talk" style="padding-top:8px;">
+  <div class="wrap">
+    <div class="cta reveal">
+      <h2>Let's get your track found</h2>
+      <p>I'll get your pages back in Google, put the schedule and tickets where fans can actually use them, and build a site that looks as good as race night feels.</p>
+      <a href="mailto:WeigelHQ@gmail.com?subject=Moberly%20Motorsports%20Park%20website" class="btn">Email Chris</a>
+      <p class="reassure">Free 15-minute call. No contracts, no pressure.</p>
+      <div class="contact">
+        <span><b>Chris Weigel</b></span>
+        <a href="mailto:WeigelHQ@gmail.com?subject=Moberly%20Motorsports%20Park%20website">WeigelHQ@gmail.com</a>
+        <a href="tel:+15736394856">573-639-4856</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Grades are from a full page-by-page review of moberlymotorsportspark.com on June 27, 2026. Projected scores are achievable targets tied to the specific work listed, not guarantees. No traffic, revenue, or customer figures are stated or implied anywhere in this document.</p>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var els=document.querySelectorAll('.reveal');
+    function showAll(){ for(var i=0;i<els.length;i++){ els[i].classList.add('in'); } }
+    if(!('IntersectionObserver' in window)){ showAll(); return; }
+    try{
+      var io=new IntersectionObserver(function(entries){
+        entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+      },{threshold:.12});
+      els.forEach(function(el){ io.observe(el); });
+    }catch(err){ showAll(); }
+  })();
+</script>
+</body>
+</html>

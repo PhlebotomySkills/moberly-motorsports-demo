@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moberly Motorsports Park: Website &amp; SEO Audit</title>
+<style>
+  :root{
+    --ink:#16181D; --muted:#5B6470; --line:#E2E8F0; --bg:#F8FAFC; --card:#FFFFFF;
+    --red:#D7261E; --redbg:#FCEBEA; --amber:#B45309; --amberbg:#FEF3E2; --green:#15803D; --greenbg:#E8F5EC;
+    --accent:#D7261E;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; line-height:1.65; font-size:16px;}
+  .wrap{max-width:880px; margin:0 auto; padding:48px 28px 80px;}
+  header.masthead{border-bottom:4px solid var(--accent); padding-bottom:22px; margin-bottom:34px;}
+  .kicker{font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); font-weight:700; margin:0 0 8px;}
+  h1{font-size:30px; line-height:1.2; margin:0 0 10px; font-weight:800; letter-spacing:-.01em;}
+  .sub{color:var(--muted); font-size:15px; margin:0;}
+  h2{font-size:21px; margin:46px 0 8px; font-weight:800; letter-spacing:-.01em;}
+  h3{font-size:16px; margin:26px 0 4px; font-weight:700;}
+  p{margin:10px 0;}
+  a{color:var(--accent);}
+  .lead{font-size:17px;}
+  .grade-row{display:flex; gap:16px; flex-wrap:wrap; margin:24px 0 8px;}
+  .gcard{flex:1; min-width:150px; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px 20px;}
+  .gcard .lab{font-size:13px; color:var(--muted); margin:0 0 6px;}
+  .gcard .big{font-size:40px; font-weight:800; line-height:1; letter-spacing:-.02em;}
+  .gcard .note{font-size:13px; color:var(--muted); margin-top:6px;}
+  .c-red{color:var(--red);} .c-amber{color:var(--amber);} .c-green{color:var(--green);}
+  table{width:100%; border-collapse:collapse; margin:16px 0; font-size:14.5px;}
+  th,td{text-align:left; padding:10px 12px; border-bottom:1px solid var(--line); vertical-align:top;}
+  th{font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); font-weight:700;}
+  .bar{height:9px; border-radius:5px; background:#EDF1F6; overflow:hidden; min-width:90px;}
+  .bar span{display:block; height:100%; border-radius:5px;}
+  .score{font-weight:700; font-variant-numeric:tabular-nums;}
+  .pill{display:inline-block; font-size:11.5px; font-weight:700; padding:3px 9px; border-radius:999px; letter-spacing:.03em; text-transform:uppercase;}
+  .pill.crit{background:var(--redbg); color:var(--red);}
+  .pill.high{background:var(--amberbg); color:var(--amber);}
+  .pill.med{background:#EEF2F7; color:#475569;}
+  .finding{background:var(--card); border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:0 12px 12px 0; padding:16px 20px; margin:16px 0;}
+  .finding.high{border-left-color:var(--amber);}
+  .finding.med{border-left-color:#94A3B8;}
+  .finding h3{margin-top:0;}
+  .finding .ev{font-size:13.5px; color:var(--muted); margin:8px 0 0;}
+  .finding .fix{margin:10px 0 0; font-size:15px;}
+  .finding .fix b{color:var(--green);}
+  .phase{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:8px 22px 18px; margin:16px 0;}
+  .phase h3{display:flex; align-items:baseline; gap:10px;}
+  .tag{font-size:12px; font-weight:700; color:var(--muted);}
+  ul.clean{margin:8px 0; padding-left:20px;}
+  ul.clean li{margin:7px 0;}
+  blockquote{margin:14px 0; padding:14px 18px; background:#FFF; border:1px solid var(--line); border-radius:12px; font-size:15px;}
+  .answer{background:#FFF; border:1px solid var(--line); border-radius:14px; padding:6px 22px 18px; margin:16px 0;}
+  footer{margin-top:54px; padding-top:18px; border-top:1px solid var(--line); font-size:13px; color:var(--muted);}
+  .muted{color:var(--muted);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <p class="kicker">Website &amp; SEO Audit</p>
+  <h1>Moberly Motorsports Park</h1>
+  <p class="sub">moberlymotorsportspark.com &middot; Wix site &middot; reviewed June 27, 2026</p>
+</header>
+
+<p class="lead">The good news first: the site has the right pages, a real brand, current standings, and a genuinely strong event page. The structure is sound. The problem is configuration, not content. Right now the website is hiding its most valuable pages from Google and locking its most-searched information inside flat images. Both are quick to fix, which is why a D-grade site is one focused day away from a B.</p>
+
+<div class="grade-row">
+  <div class="gcard"><p class="lab">Overall grade</p><div class="big c-red">40<span style="font-size:18px;color:var(--muted);">/100</span></div><p class="note">D &middot; needs work</p></div>
+  <div class="gcard"><p class="lab">Core pages hidden</p><div class="big c-red">5</div><p class="note">set to noindex</p></div>
+  <div class="gcard"><p class="lab">Phone numbers shown</p><div class="big c-amber">2</div><p class="note">should be one</p></div>
+  <div class="gcard"><p class="lab">Pages with schema</p><div class="big c-red">0</div><p class="note">no structured data</p></div>
+</div>
+
+<h2>The one finding that matters most</h2>
+<p>The site's indexing is backwards. Five of the pages people actually search for are set to <span class="muted">noindex</span>, which tells Google to leave them out of search results entirely: <b>Points/standings, the Schedule (Upcoming), Ticket Prices, Rules, and Driver Forms</b>. Meanwhile the pages Google <i>can</i> see are mostly the weakest ones: an Events page still listing 2023 races with broken placeholder images, a Portfolio page with no text, and a Blog whose last post was in 2023.</p>
+<p>So when a fan searches "Moberly Motorsports Park schedule" or "Moberly races this weekend" or "Moberly dirt track tickets," the pages that would answer them are invisible. This is the highest-impact, lowest-effort fix on the entire site: in Wix, each hidden page just needs its "Show this page in search results" toggle switched back on.</p>
+
+<h2>Scorecard</h2>
+<table>
+  <thead><tr><th style="width:230px;">Category</th><th>Score</th><th style="width:140px;">&nbsp;</th><th style="width:90px;">Grade</th></tr></thead>
+  <tbody>
+    <tr><td>Indexability &amp; crawlability</td><td class="score">30</td><td><div class="bar"><span style="width:30%;background:#D7261E;"></span></div></td><td>F</td></tr>
+    <tr><td>On-page SEO</td><td class="score">38</td><td><div class="bar"><span style="width:38%;background:#E8744A;"></span></div></td><td>F</td></tr>
+    <tr><td>Content &amp; freshness</td><td class="score">42</td><td><div class="bar"><span style="width:42%;background:#E8744A;"></span></div></td><td>D</td></tr>
+    <tr><td>Local SEO</td><td class="score">35</td><td><div class="bar"><span style="width:35%;background:#E8744A;"></span></div></td><td>F</td></tr>
+    <tr><td>Technical &amp; performance</td><td class="score">55</td><td><div class="bar"><span style="width:55%;background:#E0A800;"></span></div></td><td>C-</td></tr>
+    <tr><td>Mobile UX</td><td class="score">40</td><td><div class="bar"><span style="width:40%;background:#E8744A;"></span></div></td><td>D-</td></tr>
+    <tr><td>Accessibility</td><td class="score">35</td><td><div class="bar"><span style="width:35%;background:#E8744A;"></span></div></td><td>F</td></tr>
+    <tr><td>Conversion &amp; UX</td><td class="score">42</td><td><div class="bar"><span style="width:42%;background:#E8744A;"></span></div></td><td>D</td></tr>
+  </tbody>
+</table>
+
+<h2>Findings &amp; fixes</h2>
+
+<div class="finding">
+  <span class="pill crit">Critical</span>
+  <h3>1. Core pages are hidden from Google</h3>
+  <p>Points, Upcoming (schedule), Ticket Prices, Rules, and Driver Forms all carry a <span class="muted">noindex</span> tag. These are the pages with real search demand for a race track.</p>
+  <p class="ev">Evidence: each page returns <code>meta-robots: noindex</code> in its HTML, and none appear in the site's own pages-sitemap.</p>
+  <p class="fix"><b>Fix:</b> In Wix, open each page's SEO settings and turn on "Show this page in search results." Then resubmit the sitemap in Google Search Console. Effort: about an hour. Impact: very high.</p>
+</div>
+
+<div class="finding">
+  <span class="pill crit">Critical</span>
+  <h3>2. Two different phone numbers on every page</h3>
+  <p>The header shows <b>660-833-3639</b> and the footer shows <b>660-651-8599</b> on the same page, site-wide. That confuses customers and weakens local ranking, where Google rewards a consistent name, address, and phone (NAP).</p>
+  <p class="ev">Evidence: confirmed in the header and footer of the home, points, upcoming, rules, directions, and driver-forms pages.</p>
+  <p class="fix"><b>Fix:</b> Pick the correct number, use it everywhere, and make it match the Google Business Profile and Facebook page exactly.</p>
+</div>
+
+<div class="finding">
+  <span class="pill crit">Critical</span>
+  <h3>3. Key information is trapped inside flat images</h3>
+  <p>The 2026 schedule (the centerpiece of the homepage), the ticket prices, and the rules are all single JPG images. Google cannot read text in an image, screen readers cannot announce it, and on a phone it shrinks to an unreadable thumbnail. For a track whose fans mostly browse on mobile, this quietly costs both rankings and ticket sales.</p>
+  <p class="ev">Evidence: homepage schedule is <code>2026schedule.jpg</code>; prices page is a single <code>prices.jpg</code>; rules page is <code>2026rules.jpg</code>.</p>
+  <p class="fix"><b>Fix:</b> Rebuild the schedule, prices, and rules as real HTML text and tables. Keep a downloadable image or PDF as a bonus, not as the only version. This also makes updates far faster than re-exporting a graphic each week.</p>
+</div>
+
+<div class="finding high">
+  <span class="pill high">High</span>
+  <h3>4. No structured data anywhere</h3>
+  <p>The site has zero schema markup. A venue with a recurring event calendar is the ideal candidate for it.</p>
+  <p class="fix"><b>Fix:</b> Add <code>LocalBusiness</code> / <code>SportsActivityLocation</code> schema (name, address, one phone, geo, hours) and <code>Event</code> schema for each race date. This makes the track eligible for Google's event rich results and stronger map presence.</p>
+</div>
+
+<div class="finding high">
+  <span class="pill high">High</span>
+  <h3>5. The homepage has no headline and no clear call to action</h3>
+  <p>The "hero" is a stack of images with no H1 and almost no readable text. There is no one-line statement of who, what, when, and where, and no primary "Buy Tickets" button above the fold.</p>
+  <p class="fix"><b>Fix:</b> Add a real headline such as "Dirt track racing in Moberly, MO," a sentence on race nights and location, and a prominent Buy Tickets button. Give Google and first-time visitors something to read in the first two seconds.</p>
+</div>
+
+<div class="finding high">
+  <span class="pill high">High</span>
+  <h3>6. The indexed content is stale</h3>
+  <p>The Events page lists races from 2023 with broken "image-empty-state" placeholders, and the blog stopped in 2023. These are among the few pages Google can see, so they shape the site's first impression in search.</p>
+  <p class="fix"><b>Fix:</b> Refresh the Events page to the current season or remove it from the index, fix or remove the broken placeholder images, and either revive the blog with short results recaps or de-index it.</p>
+</div>
+
+<div class="finding high">
+  <span class="pill high">High</span>
+  <h3>7. Duplicate titles and descriptions</h3>
+  <p>Four pages share the identical title "Dirt Track Racing | Moberly Motorsports Park | Missouri" and the same boilerplate description. Search engines can't tell them apart, and you lose the chance to target distinct searches.</p>
+  <p class="fix"><b>Fix:</b> Write a unique, specific title and meta description for every page (for example, "2026 Schedule | Moberly Motorsports Park" and "Ticket Prices &amp; Pit Passes | Moberly Motorsports Park").</p>
+</div>
+
+<div class="finding med">
+  <span class="pill med">Medium</span>
+  <h3>8. Image alt text is missing or just filenames</h3>
+  <p>Most images use a filename as alt text (for example "M Badge tif (1).png", "prices.jpg") or none at all. That hurts accessibility and forfeits image-search traffic.</p>
+  <p class="fix"><b>Fix:</b> Add short, descriptive alt text to every meaningful image.</p>
+</div>
+
+<div class="finding med">
+  <span class="pill med">Medium</span>
+  <h3>9. The Points page is a slow third-party embed</h3>
+  <p>The standings come from a MyRacePass iframe. It is blank for the first second or two, then loads its own competing menu (Home, Info, News, Tickets, and so on), creating a confusing "site within a site" that can lead fans off the track's own pages.</p>
+  <p class="fix"><b>Fix:</b> Keep the embed, but make the page indexable, add a real heading and a sentence of intro text above it, and consider constraining or restyling the embed so it reads as part of this site.</p>
+</div>
+
+<div class="finding med">
+  <span class="pill med">Medium</span>
+  <h3>10. Everything defers to Facebook; you own no audience</h3>
+  <p>Most pages end with "For up to date info, see our Facebook page." When a race is rained out, like tonight's June 27 cancellation, the only way fans hear about it is Facebook's algorithm.</p>
+  <p class="fix"><b>Fix:</b> Add an email or SMS signup so the track can reach fans directly with schedule changes, rainouts, and ticket reminders.</p>
+</div>
+
+<div class="finding med">
+  <span class="pill med">Medium</span>
+  <h3>11. Brand spelling and orphan pages</h3>
+  <p>The event is "Wiener Nationals" in the menu but "Weiner Nationals" on the homepage schedule graphic. The sitemap also carries duplicate or orphan pages (events vs events-3, plus a context-free Portfolio).</p>
+  <p class="fix"><b>Fix:</b> Standardize the spelling, merge the duplicate event pages, and either give Portfolio real captions or remove it.</p>
+</div>
+
+<h2>The two pages you flagged</h2>
+
+<div class="answer">
+<h3>Points page</h3>
+<p>The standings themselves are fine, a complete MyRacePass leaderboard by class. The problems are visibility and experience: the page is set to noindex so it never appears in search, it has no text of its own, and the embed loads slowly behind a blank screen before showing its own navigation. Make it indexable, add a heading and intro line, and tidy the embed.</p>
+</div>
+
+<div class="answer">
+<h3>Hero / homepage</h3>
+<p>It functions as a bulletin board, not a hero. A tall schedule JPG and a rainout graphic carry the whole page, with no headline, no readable value proposition, and no primary ticket button. Rebuild it around a text headline, the schedule as real text, a clear "Next Event" block, and a Buy Tickets call to action. This is the single biggest lever for both first impressions and mobile conversion.</p>
+</div>
+
+<h2>The plan</h2>
+
+<div class="phase">
+<h3>Phase 1 <span class="tag">this week &middot; about 1 hour &middot; no cost</span></h3>
+<ul class="clean">
+  <li>Turn off noindex on Points, Upcoming, Ticket Prices, Rules, and Driver Forms, then resubmit the sitemap in Search Console.</li>
+  <li>Fix the phone number so one consistent number appears everywhere.</li>
+  <li>Add a homepage headline and a Buy Tickets button.</li>
+</ul>
+<p class="muted" style="font-size:14px;">These three moves address the worst damage and lift the site from a D toward a B.</p>
+</div>
+
+<div class="phase">
+<h3>Phase 2 <span class="tag">next 2 to 3 weeks</span></h3>
+<ul class="clean">
+  <li>Rebuild the schedule, ticket prices, and rules as real text and tables.</li>
+  <li>Add LocalBusiness and Event structured data.</li>
+  <li>Write unique titles and meta descriptions for every page.</li>
+  <li>Refresh or de-index the 2023 Events and Blog content and fix broken images.</li>
+</ul>
+</div>
+
+<div class="phase">
+<h3>Phase 3 <span class="tag">ongoing</span></h3>
+<ul class="clean">
+  <li>Add an email or SMS signup and start capturing fans directly.</li>
+  <li>Add descriptive alt text and standardize the Wiener Nationals spelling.</li>
+  <li>Consolidate the duplicate event and portfolio pages.</li>
+  <li>Keep the schedule current as text, post short results recaps, and run a PageSpeed check monthly.</li>
+</ul>
+</div>
+
+<footer>
+<p>Scores are a qualitative assessment based on a full crawl of the public site and rendered pages on June 27, 2026. Performance was assessed from the site's structure and asset profile, not a live lab test; before Phase 2, run Google PageSpeed Insights on the homepage and points page for exact Core Web Vitals numbers. No data in this report was estimated or invented.</p>
+</footer>
+
+</div>
+</body>
+</html>
