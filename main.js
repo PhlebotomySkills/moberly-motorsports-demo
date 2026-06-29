@@ -43,17 +43,30 @@
     a.addEventListener("click", closeNav);
   });
 
-  /* ---------- scroll reveal ---------- */
+  /* ---------- scroll reveal (content shows even if JS is off, slow, or throttled) ---------- */
   var reveals = document.querySelectorAll(".reveal");
-  if ("IntersectionObserver" in window && reveals.length) {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
-      });
-    }, { threshold: 0.12 });
-    reveals.forEach(function (el) { io.observe(el); });
-  } else {
-    reveals.forEach(function (el) { el.classList.add("in"); });
+  function showReveal(el) { el.classList.add("in"); }
+  if (reveals.length) {
+    // Turn on the animation gate, then immediately reveal whatever is already on screen,
+    // all in one synchronous step so above-the-fold content never flashes hidden.
+    document.documentElement.classList.add("js");
+    var vh = window.innerHeight || document.documentElement.clientHeight;
+    reveals.forEach(function (el) {
+      var r = el.getBoundingClientRect();
+      if (r.top < vh && r.bottom > 0) showReveal(el);
+    });
+    if ("IntersectionObserver" in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) { showReveal(en.target); io.unobserve(en.target); }
+        });
+      }, { threshold: 0, rootMargin: "0px 0px -8% 0px" });
+      reveals.forEach(function (el) { if (!el.classList.contains("in")) io.observe(el); });
+      // Ultimate safety net: never leave any content invisible.
+      setTimeout(function () { reveals.forEach(showReveal); }, 1400);
+    } else {
+      reveals.forEach(showReveal);
+    }
   }
 
   /* ---------- signup (sample handler) ---------- */

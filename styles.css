@@ -289,9 +289,11 @@ section{padding:62px 0;}
 .site-footer .fbot{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;padding:20px 0 30px;font-size:12.5px;color:#7B8492;}
 .site-footer .fbot a{color:#7B8492;}
 
-/* ---- reveal animation ---- */
-.reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease;}
-.reveal.in{opacity:1;transform:none;}
+/* ---- reveal animation (content is visible by default; only hidden once JS can animate it,
+   so it never stays invisible if JS is off, slow, or throttled) ---- */
+.reveal{transition:opacity .6s ease,transform .6s ease;}
+html.js .reveal{opacity:0;transform:translateY(16px);}
+html.js .reveal.in{opacity:1;transform:none;}
 
 /* ==========================================================================
    RESPONSIVE
@@ -346,7 +348,7 @@ section{padding:62px 0;}
   .next-event .ne-cta{justify-content:center;}
 }
 @media (prefers-reduced-motion:reduce){
-  .reveal{opacity:1;transform:none;transition:none;}
+  html.js .reveal{opacity:1;transform:none;transition:none;}
   *{scroll-behavior:auto;}
 }
 
