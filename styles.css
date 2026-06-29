@@ -23,6 +23,14 @@
 
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+
+/* ---- accessibility: skip link + visible keyboard focus ---- */
+.skip{position:absolute;left:-9999px;top:0;z-index:200;}
+.skip:focus{left:12px;top:12px;position:fixed;background:var(--red);color:#fff;
+  font-family:var(--fb);font-weight:600;padding:11px 18px;border-radius:8px;text-decoration:none;box-shadow:0 6px 20px rgba(0,0,0,.35);}
+:focus-visible{outline:3px solid var(--cyan);outline-offset:2px;}
+a:focus-visible,button:focus-visible,.btn:focus-visible,.sb-btn:focus-visible,
+input:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--cyan);outline-offset:2px;border-radius:6px;}
 body{
   background:var(--bg);color:var(--ink);font-family:var(--fb);
   line-height:1.6;font-size:16px;font-weight:400;
@@ -76,7 +84,7 @@ h3{font-size:20px;}
 .nav{display:flex;align-items:center;justify-content:space-between;gap:18px;min-height:74px;}
 .brand{display:flex;align-items:center;gap:12px;}
 .brand img{height:46px;width:auto;}
-.brand .bt{font-family:var(--fh);font-weight:700;font-size:18px;line-height:1;letter-spacing:.02em;}
+.brand .bt{font-family:var(--fh);font-weight:700;font-size:18px;line-height:1;letter-spacing:.02em;color:#fff;}
 .brand .bt small{display:block;font-size:11px;color:var(--cyan);letter-spacing:.22em;font-weight:600;}
 .nav-links{display:flex;align-items:center;gap:2px;list-style:none;}
 .nav-links>li{position:relative;}
@@ -275,7 +283,8 @@ section{padding:62px 0;}
 /* ---- footer ---- */
 .site-footer{background:#0D0F13;color:#C7CDD6;padding:54px 0 0;}
 .site-footer .ftop{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:30px;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,.1);}
-.site-footer h4{font-family:var(--fh);color:#fff;font-size:15px;letter-spacing:.1em;margin-bottom:14px;}
+.site-footer h3{font-family:var(--fh);color:#fff;font-size:15px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;}
+.site-footer .btn{color:#fff;}
 .site-footer .fbrand img{height:54px;margin-bottom:14px;}
 .site-footer .fbrand p{font-size:14px;line-height:1.7;}
 .site-footer ul{list-style:none;}

@@ -171,7 +171,7 @@
         var pop = d.daily.precipitation_probability_max[idx];
         set(".wx-ic", ci.ic);
         set(".wx-main", hi + "&deg;F" + (ci.t ? " &middot; " + ci.t : ""));
-        set(".wx-pop", (pop == null ? "" : pop + "% rain"));
+        set(".wx-pop", (pop == null || isNaN(pop)) ? "" : Math.round(Number(pop)) + "% rain");
         set(".wx-note", "Race-day forecast for the track." + noteFinal);
       } else if (d.current) {
         var cc = wmo(d.current.weather_code);
