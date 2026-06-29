@@ -195,6 +195,7 @@ section{padding:62px 0;}
 .badge.rain{background:#EEF2F7;color:#475569;}
 .badge.feat{background:var(--gold);color:var(--ink);}
 .note{font-size:13px;color:var(--muted);margin-top:14px;font-style:italic;}
+.note a{text-decoration:underline;}
 
 /* ---- pricing ---- */
 .prices{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;}
